@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "seed:demo": "node --env-file-if-exists=.env.local scripts/seed-demo.ts",
-    "reset:demo": "node --env-file-if-exists=.env.local scripts/seed-demo.ts --reset"
+    "reset:demo": "node --env-file-if-exists=.env.local scripts/seed-demo.ts --reset",
+    "test:e2e": "node --env-file-if-exists=.env.local scripts/e2e-smoke.mjs",
+    "screenshots": "node --env-file-if-exists=.env.local scripts/screenshots.mjs"
   },
   "dependencies": {
     "@date-fns/tz": "^1.5.0",

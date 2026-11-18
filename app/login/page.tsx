@@ -28,7 +28,7 @@ export default async function LoginPage() {
           </p>
         </div>
 
-        <div className="flex flex-col items-center gap-6 lg:items-end">
+        <div className="order-first flex flex-col items-center gap-6 lg:order-none lg:items-end">
           {demoEnabled ? <DemoLogin /> : null}
           <AuthForm />
         </div>

@@ -78,7 +78,7 @@ export function AuthForm() {
           <label className="block">
             <span className="mb-2 block text-sm font-medium text-slate-700">Display name</span>
             <input
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none ring-court-400 transition focus:ring-2"
+              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none ring-court-400 transition [color-scheme:light] placeholder:text-slate-400 focus:ring-2"
               value={displayName}
               onChange={(event) => setDisplayName(event.target.value)}
               placeholder="Alex Morgan"
@@ -90,7 +90,7 @@ export function AuthForm() {
         <label className="block">
           <span className="mb-2 block text-sm font-medium text-slate-700">Email</span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none ring-court-400 transition focus:ring-2"
+            className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none ring-court-400 transition [color-scheme:light] placeholder:text-slate-400 focus:ring-2"
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -102,7 +102,7 @@ export function AuthForm() {
         <label className="block">
           <span className="mb-2 block text-sm font-medium text-slate-700">Password</span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none ring-court-400 transition focus:ring-2"
+            className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none ring-court-400 transition [color-scheme:light] placeholder:text-slate-400 focus:ring-2"
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}

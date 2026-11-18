@@ -20,11 +20,13 @@ export function formatInAppZone(date: Date | string, pattern: string) {
 
 // Reads an <input type="datetime-local"> value ("YYYY-MM-DDTHH:mm") as wall-clock
 // time in APP_TIME_ZONE. `new Date(value)` would use the browser's zone instead.
-export function parseAppZoneDateTimeLocal(value: string) {
+// Returns a plain Date: TZDate#toISOString() emits a "-08:00" offset instead of "Z",
+// which the API's z.iso.datetime() validation rejects.
+export function parseAppZoneDateTimeLocal(value: string): Date {
   const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(value);
   if (!match) {
     throw new Error(`Invalid date-time value: ${value}`);
   }
   const [year, month, day, hour, minute] = match.slice(1).map(Number);
-  return new TZDate(year, month - 1, day, hour, minute, APP_TIME_ZONE);
+  return new Date(new TZDate(year, month - 1, day, hour, minute, APP_TIME_ZONE).getTime());
 }

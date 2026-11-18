@@ -44,7 +44,7 @@ export function WeeklyCalendar({ slots, weekStart = nowInAppZone() }: WeeklyCale
                         {formatInAppZone(slot.ends_at, "h:mm a")}
                       </p>
                       <p className="mt-2 text-sm text-court-100">{slot.location}</p>
-                      <p className="text-xs uppercase tracking-[0.2em] text-court-300">
+                      <p className="break-words text-xs uppercase tracking-wide text-court-300">
                         {slot.court_name ?? "Main Court"} · {slot.skill_level.replace("_", " ")}
                       </p>
                       <p className="mt-3 text-xs text-slate-300">

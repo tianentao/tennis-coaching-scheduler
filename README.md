@@ -2,6 +2,19 @@
 
 Production-quality starter for a tennis coaching scheduling platform built with Next.js App Router, React, TypeScript, Tailwind CSS, and Supabase.
 
+## Live demo
+
+**[tennis-coaching-scheduler.vercel.app](https://tennis-coaching-scheduler.vercel.app)** — no signup needed. On the login page, pick **Try as a player** (browse the calendar, book and cancel sessions) or **Try as the coach** (create slots, see every booking). Demo accounts are shared, and a nightly job resets all demo data.
+
+![Weekly calendar](docs/screenshots/calendar.png)
+
+Demo-specific pieces:
+
+- `npm run seed:demo` / `npm run reset:demo` seed or reset the demo data (`lib/demo/seed.ts`).
+- `GET /api/cron/reset-demo` runs the reset nightly via Vercel Cron (`vercel.json`), protected by `CRON_SECRET`.
+- One-click demo sign-in is a server action (`app/login/actions.ts`); the demo password stays on the server.
+- All times are shown in Pacific Time (`lib/time.ts`).
+
 ## Step 1: High-level architecture
 
 ### Frontend
@@ -28,7 +41,7 @@ Production-quality starter for a tennis coaching scheduling platform built with 
 
 ## Step 2: Full database schema (SQL)
 
-The full schema lives in [supabase/migrations/20260326170000_initial_schema.sql](/Users/tim/Documents/Playground/supabase/migrations/20260326170000_initial_schema.sql).
+The full schema lives in [supabase/migrations/20260326170000_initial_schema.sql](supabase/migrations/20260326170000_initial_schema.sql).
 
 Key design decisions:
 
@@ -43,13 +56,13 @@ Key design decisions:
 Route handlers:
 
 - `GET /api/slots`
-  - File: [app/api/slots/route.ts](/Users/tim/Documents/Playground/app/api/slots/route.ts)
+  - File: [app/api/slots/route.ts](app/api/slots/route.ts)
   - Returns available slots, optionally filtered by `startsAt` and `endsAt`
 - `POST /api/book`
-  - File: [app/api/book/route.ts](/Users/tim/Documents/Playground/app/api/book/route.ts)
+  - File: [app/api/book/route.ts](app/api/book/route.ts)
   - Requires auth and calls `book_time_slot(...)`
 - `DELETE /api/booking?id=<bookingId>`
-  - File: [app/api/booking/route.ts](/Users/tim/Documents/Playground/app/api/booking/route.ts)
+  - File: [app/api/booking/route.ts](app/api/booking/route.ts)
   - Requires auth and calls `cancel_booking(...)`
 
 Implementation notes:
@@ -62,20 +75,20 @@ Implementation notes:
 
 Pages:
 
-- [app/login/page.tsx](/Users/tim/Documents/Playground/app/login/page.tsx)
-- [app/calendar/page.tsx](/Users/tim/Documents/Playground/app/calendar/page.tsx)
-- [app/dashboard/page.tsx](/Users/tim/Documents/Playground/app/dashboard/page.tsx)
-- [app/admin/page.tsx](/Users/tim/Documents/Playground/app/admin/page.tsx)
+- [app/login/page.tsx](app/login/page.tsx)
+- [app/calendar/page.tsx](app/calendar/page.tsx)
+- [app/dashboard/page.tsx](app/dashboard/page.tsx)
+- [app/admin/page.tsx](app/admin/page.tsx)
 
 Reusable components:
 
-- [components/auth-form.tsx](/Users/tim/Documents/Playground/components/auth-form.tsx)
-- [components/weekly-calendar.tsx](/Users/tim/Documents/Playground/components/weekly-calendar.tsx)
-- [components/booking-button.tsx](/Users/tim/Documents/Playground/components/booking-button.tsx)
-- [components/booking-list.tsx](/Users/tim/Documents/Playground/components/booking-list.tsx)
-- [components/cancel-booking-button.tsx](/Users/tim/Documents/Playground/components/cancel-booking-button.tsx)
-- [components/admin-slot-form.tsx](/Users/tim/Documents/Playground/components/admin-slot-form.tsx)
-- [components/admin-bookings-table.tsx](/Users/tim/Documents/Playground/components/admin-bookings-table.tsx)
+- [components/auth-form.tsx](components/auth-form.tsx)
+- [components/weekly-calendar.tsx](components/weekly-calendar.tsx)
+- [components/booking-button.tsx](components/booking-button.tsx)
+- [components/booking-list.tsx](components/booking-list.tsx)
+- [components/cancel-booking-button.tsx](components/cancel-booking-button.tsx)
+- [components/admin-slot-form.tsx](components/admin-slot-form.tsx)
+- [components/admin-bookings-table.tsx](components/admin-bookings-table.tsx)
 
 Current UX flow:
 
@@ -104,11 +117,12 @@ cp .env.example .env.local
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
+- `DEMO_ACCOUNT_PASSWORD` and `CRON_SECRET` (only for the demo features)
 
-4. Apply the SQL migration in Supabase:
+4. Apply the SQL migrations in Supabase:
 
-- Open the Supabase SQL Editor and run the contents of [supabase/migrations/20260326170000_initial_schema.sql](/Users/tim/Documents/Playground/supabase/migrations/20260326170000_initial_schema.sql)
-- Or use the Supabase CLI migration workflow if you already have it configured
+- With the Supabase CLI (installed as a dev dependency): `npx supabase link --project-ref <ref>`, then `npx supabase db push --remote`
+- Or run each file in [supabase/migrations/](supabase/migrations/) in order in the Supabase SQL Editor
 
 5. Seed at least one coach/admin user:
 

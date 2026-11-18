@@ -18,20 +18,20 @@ export async function SiteHeader() {
 
   return (
     <header className="border-b border-white/10 bg-slate-950/80 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 py-4">
         <Link href="/" className="flex items-center gap-3 text-white">
           <div className="rounded-full bg-court-500 p-2 text-slate-950">
             <Trophy className="h-4 w-4" />
           </div>
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-court-200">
+            <p className="hidden text-sm font-semibold uppercase tracking-[0.3em] text-court-200 sm:block">
               Match Point
             </p>
-            <p className="text-lg font-semibold">Tennis Coaching Scheduler</p>
+            <p className="text-base font-semibold sm:text-lg">Tennis Coaching Scheduler</p>
           </div>
         </Link>
 
-        <nav className="flex items-center gap-3 text-sm text-slate-200">
+        <nav className="flex flex-wrap items-center gap-2 text-sm text-slate-200 sm:gap-3">
           <Link
             href="/calendar"
             className="rounded-full border border-white/10 px-4 py-2 transition hover:border-court-400 hover:text-white"

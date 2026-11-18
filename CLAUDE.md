@@ -11,9 +11,11 @@ npm run lint       # next lint (eslint-config-next core-web-vitals)
 npm run typecheck  # tsc --noEmit
 npm run seed:demo  # (re)seed demo accounts, 14 days of slots, sample bookings
 npm run reset:demo # same, plus delete visitor-created player accounts (what the nightly cron does)
+npm run test:e2e -- <url>    # headless-Chrome click-through of player + coach flows (default localhost:3000); re-seed after
+npm run screenshots -- <url> # desktop + phone screenshots into docs/screenshots/
 ```
 
-There is no test suite yet. Requires `.env.local` (copy `.env.example`) with `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` — `lib/env.ts` throws at import time if either is missing. `SUPABASE_SERVICE_ROLE_KEY` is only needed by `lib/supabase/admin.ts`.
+There are no unit tests; `test:e2e` is the only automated check, and it is the one that catches browser-only bugs (curl-based checks never run client JS). Run it against the live URL after deploying. Requires `.env.local` (copy `.env.example`) with `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` — `lib/env.ts` throws at import time if either is missing. Read `NEXT_PUBLIC_*` vars only as literal `process.env.NEXT_PUBLIC_X`; dynamic `process.env[key]` is undefined in the browser and crashes every client component that imports `lib/env.ts`. `SUPABASE_SERVICE_ROLE_KEY` is only needed by `lib/supabase/admin.ts`.
 
 The hosted Supabase project (ref `acuyehdoteiurwrdgeec`, us-west-1) is linked via the Supabase CLI, installed as a dev dependency (`npx supabase`, not Homebrew). `.env.local` holds the URL, publishable key (as `NEXT_PUBLIC_SUPABASE_ANON_KEY`), secret key (as `SUPABASE_SERVICE_ROLE_KEY`) and `SUPABASE_DB_PASSWORD`.
 
@@ -86,6 +88,6 @@ Pattern: create server client → `auth.getUser()` (401 if absent) → optional 
 
 ### Time zone
 
-All date math and display use `APP_TIME_ZONE` (America/Los_Angeles) from `lib/time.ts`, never the server zone (UTC on Vercel) or the browser zone. Use `formatInAppZone()` instead of `format()`, pass `{ in: inAppZone }` to date-fns v4 functions like `startOfWeek`/`isSameDay`, and convert `datetime-local` input with `parseAppZoneDateTimeLocal()` instead of `new Date(value)`. The demo seed uses the same helpers. `/calendar?week=N` (0–12) picks the week; it hides slots that have already started.
+All date math and display use `APP_TIME_ZONE` (America/Los_Angeles) from `lib/time.ts`, never the server zone (UTC on Vercel) or the browser zone. Use `formatInAppZone()` instead of `format()`, pass `{ in: inAppZone }` to date-fns v4 functions like `startOfWeek`/`isSameDay`, and convert `datetime-local` input with `parseAppZoneDateTimeLocal()` instead of `new Date(value)`. Don't send a `TZDate` to the API: its `toISOString()` has a `-08:00` offset, which `z.iso.datetime()` rejects (the helper returns a plain `Date` for this reason). The demo seed uses the same helpers. `/calendar?week=N` (0–12) picks the week; it hides slots that have already started.
 
 Pages: `/login`, `/calendar` (browse/book), `/dashboard` (my bookings), `/admin` (create slots, all bookings). Interactive pieces (booking/cancel buttons, auth form, admin slot form) are client components in `components/` that call the API routes. Tailwind uses a custom `court` color palette (see `tailwind.config.ts`); `cn()` in `lib/utils.ts` merges class names.

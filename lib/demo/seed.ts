@@ -15,7 +15,7 @@ type SkillLevel = Database["public"]["Tables"]["time_slots"]["Row"]["skill_level
 type Role = Database["public"]["Tables"]["profiles"]["Row"]["role"];
 
 export const DEMO_ACCOUNTS = {
-  coach: { email: "demo-coach@example.com", displayName: "Coach Maya Chen", role: "coach" },
+  coach: { email: "demo-coach@example.com", displayName: "Maya Chen", role: "coach" },
   player: { email: "demo-player@example.com", displayName: "Alex Rivera", role: "player" },
   // Extra player so the coach's admin view shows more than one person's bookings.
   otherPlayer: { email: "demo-player-2@example.com", displayName: "Jordan Lee", role: "player" }
